@@ -1,0 +1,6 @@
+{
+  "name": "SYA FX",
+  "description": "Institutional-grade Forex market-analysis platform with live market data, technical indicators, market structure, chart pattern detection, confluence scoring, and AI analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

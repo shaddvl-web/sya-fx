@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/app/applet/SYAFX/SYAFX.Api/wwwroot/css/terminal.css",
+      "PackagePath": "staticwebassets/css/terminal.css"
+    },
+    {
+      "Id": "/app/applet/SYAFX/SYAFX.Api/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "/app/applet/SYAFX/SYAFX.Api/wwwroot/js/api.js",
+      "PackagePath": "staticwebassets/js/api.js"
+    },
+    {
+      "Id": "/app/applet/SYAFX/SYAFX.Api/wwwroot/js/app.js",
+      "PackagePath": "staticwebassets/js/app.js"
+    },
+    {
+      "Id": "/app/applet/SYAFX/SYAFX.Api/wwwroot/js/chart.js",
+      "PackagePath": "staticwebassets/js/chart.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.SYAFX.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.SYAFX.Api.props",
+      "PackagePath": "build\\SYAFX.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.SYAFX.Api.props",
+      "PackagePath": "buildMultiTargeting\\SYAFX.Api.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.SYAFX.Api.props",
+      "PackagePath": "buildTransitive\\SYAFX.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

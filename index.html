@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>SYA FX — Institutional Quantitative Forex Analysis Terminal</title>
+  <meta name="description" content="Professional institutional-grade Forex trading intelligence terminal powered by quantitative confluence engines and Qwen AI analysis.">
+  <meta property="og:title" content="SYA FX — Institutional Quantitative Forex Analysis Terminal">
+  <meta property="og:description" content="Professional institutional-grade Forex trading intelligence terminal powered by quantitative confluence engines and Qwen AI analysis.">
+  <link rel="stylesheet" href="css/terminal.css">
+</head>
+<body>
+
+<div class="terminal-layout" id="terminalLayout">
+
+  <!-- Sidebar Mobile Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ====================================================================
+       LEFT SIDEBAR
+       ==================================================================== -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="brand-section">
+      <div class="brand-header-row">
+        <div class="brand-logo">S</div>
+        <div class="brand-title">
+          <span data-i18n="brandName">SYA FX</span>
+          <span class="brand-badge" data-i18n="brandBadge">PRO</span>
+        </div>
+      </div>
+      <div class="brand-subtitle" data-i18n="brandSubtitle">INSTITUTIONAL TERMINAL</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-view="dashboard" id="navDashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span data-i18n="navDashboard">Dashboard</span>
+      </div>
+      <div class="nav-item" data-view="markets" id="navMarkets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <span data-i18n="navMarkets">Markets</span>
+      </div>
+      <div class="nav-item" data-view="ai" id="navAi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+        <span data-i18n="navAi">AI Analyst</span>
+      </div>
+      <div class="nav-item" data-view="signals" id="navSignals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span data-i18n="navSignals">Signals Feed</span>
+      </div>
+      <div class="nav-item" data-view="backtest" id="navBacktest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span data-i18n="navBacktest">Backtest Lab</span>
+      </div>
+      <div class="nav-item" data-view="history" id="navHistory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span data-i18n="navHistory">Audit History</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="engine-status-box">
+        <div class="engine-status-row">
+          <span data-i18n="engineStatus">Engine Status</span>
+          <span style="color: var(--color-buy); display: flex; align-items: center; gap: 5px;">
+            <span class="status-dot"></span> <span data-i18n="operational">OPERATIONAL</span>
+          </span>
+        </div>
+        <div class="engine-status-row">
+          <span>Backend</span>
+          <span style="color: var(--text-secondary)">ASP.NET 8</span>
+        </div>
+        <div class="engine-status-row">
+          <span>Database</span>
+          <span style="color: var(--text-secondary)">SQLite / EF</span>
+        </div>
+        <div class="engine-status-row">
+          <span>AI Model</span>
+          <span style="color: #9D4EDD">Qwen 3.6 27B</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ====================================================================
+       MAIN CONTENT WRAPPER
+       ==================================================================== -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Sidebar Menu" title="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <div class="session-indicator" title="Active Global Forex Sessions">
+          <span class="session-badge" data-i18n="session">SESSION:</span>
+          <span id="activeSessionText">LONDON / NY</span>
+        </div>
+
+        <div class="connection-pill" id="connStatus">
+          <span class="status-dot"></span>
+          <span data-i18n="liveTelemetry">LIVE TELEMETRY</span>
+        </div>
+
+        <div class="symbol-selector-wrap">
+          <button class="symbol-quick-btn active" data-symbol="EUR_USD">EUR/USD</button>
+          <button class="symbol-quick-btn" data-symbol="GBP_USD">GBP/USD</button>
+          <button class="symbol-quick-btn" data-symbol="USD_JPY">USD/JPY</button>
+          <button class="symbol-quick-btn" data-symbol="USD_CHF">USD/CHF</button>
+          <button class="symbol-quick-btn" data-symbol="AUD_USD">AUD/USD</button>
+          <button class="symbol-quick-btn" data-symbol="USD_CAD">USD/CAD</button>
+          <button class="symbol-quick-btn" data-symbol="XAU_USD">XAU/USD</button>
+          <select class="symbol-dropdown" id="symbolDropdown" title="All Forex Pairs">
+            <option value="EUR_USD">EUR/USD — Euro / US Dollar</option>
+            <option value="GBP_USD">GBP/USD — British Pound / USD</option>
+            <option value="USD_JPY">USD/JPY — US Dollar / Yen</option>
+            <option value="USD_CHF">USD/CHF — US Dollar / Swiss Franc</option>
+            <option value="AUD_USD">AUD/USD — Aussie / US Dollar</option>
+            <option value="USD_CAD">USD/CAD — US Dollar / Canadian</option>
+            <option value="NZD_USD">NZD/USD — Kiwi / US Dollar</option>
+            <option value="EUR_GBP">EUR/GBP — Euro / British Pound</option>
+            <option value="EUR_JPY">EUR/JPY — Euro / Yen</option>
+            <option value="GBP_JPY">GBP/JPY — British Pound / Yen</option>
+            <option value="XAU_USD">XAU/USD — Spot Gold / USD</option>
+            <option value="BTC_USD">BTC/USD — Bitcoin / USD</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <div class="ticker-display">
+          <span class="ticker-symbol" id="tickerSymbol">EUR/USD</span>
+          <span class="ticker-price" id="tickerPrice">1.08450</span>
+          <span class="ticker-change change-pos" id="tickerChange">+0.28%</span>
+          <span style="font-size: 11px; color: var(--text-muted);" id="tickerSpread">Spread: 0.8 pips</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Language Switcher Button -->
+        <button class="btn-lang" id="btnLangToggle" title="گۆڕینی زمان / Switch Language">
+          <span>🌐</span>
+          <span data-i18n="langToggle">کوردی</span>
+        </button>
+
+        <div class="timeframe-group">
+          <button class="tf-btn" data-tf="M1">M1</button>
+          <button class="tf-btn" data-tf="M5">M5</button>
+          <button class="tf-btn active" data-tf="M15">M15</button>
+          <button class="tf-btn" data-tf="H1">H1</button>
+          <button class="tf-btn" data-tf="H4">H4</button>
+          <button class="tf-btn" data-tf="D1">D1</button>
+        </div>
+
+        <button class="btn-icon" id="btnRefresh" title="Refresh Live Market Analysis" data-i18n-title="refreshTip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        </button>
+
+        <div class="clock-display" id="utcClock">12:00:00 UTC</div>
+      </div>
+    </header>
+
+    <!-- ==================================================================
+         VIEW 1: MAIN TERMINAL DASHBOARD (CHART + SUB-PANELS)
+         ================================================================== -->
+    <div class="view-container active" id="view-dashboard">
+      <div class="dashboard-view">
+
+        <!-- Responsive Mobile Ticker Bar (visible on tablets and phones) -->
+        <div class="mobile-ticker-bar" id="mobileTickerBar">
+          <div class="mobile-ticker-info">
+            <span class="mobile-ticker-symbol" id="mobileTickerSymbol">EUR/USD</span>
+            <span class="mobile-ticker-price" id="mobileTickerPrice">1.08450</span>
+            <span class="mobile-ticker-change change-pos" id="mobileTickerChange">+0.28%</span>
+          </div>
+          <div class="mobile-ticker-meta">
+            <span class="mobile-ticker-spread" id="mobileTickerSpread">Spread: 0.8 p</span>
+            <span class="mobile-ticker-session" id="mobileTickerSession">LONDON/NY</span>
+          </div>
+        </div>
+
+        <!-- Chart Section -->
+        <section class="chart-section">
+          <div class="chart-toolbar">
+            <div class="chart-toggles">
+              <button class="chart-toggle-btn active" data-toggle="patterns" id="togglePatterns" data-i18n="togglePatterns">📐 شێوەکانی چارت (PATTERNS)</button>
+              <button class="chart-toggle-btn active" data-toggle="signals" id="toggleSignals" data-i18n="toggleSignals">⚡ دیاریکەری کڕین/فرۆشتن (BUY/SELL)</button>
+              <button class="chart-toggle-btn active" data-toggle="ema" id="toggleEma" data-i18n="toggleEma">EMA (20/50/200)</button>
+              <button class="chart-toggle-btn active" data-toggle="bb" id="toggleBb" data-i18n="toggleBb">BOLLINGER BANDS</button>
+              <button class="chart-toggle-btn active" data-toggle="sr" id="toggleSr" data-i18n="toggleSr">SUPPORT / RESISTANCE</button>
+              <button class="chart-toggle-btn active" data-toggle="structure" id="toggleStruct" data-i18n="toggleStruct">BOS / CHOCH / SWINGS</button>
+              <button class="chart-toggle-btn active" data-toggle="risk" id="toggleRisk" data-i18n="toggleRisk">TRADE LEVELS</button>
+            </div>
+
+            <div class="chart-info-banner">
+              <button id="btnQuickAi" class="symbol-quick-btn active" style="color: #00ffa3; border-color: rgba(0,255,163,0.5); font-weight: 700; display: flex; align-items: center; gap: 5px;" title="شیکاری قووڵی ژیری دەستکرد بۆ شێوازەکانی چارت و کڕین/فرۆشتن">
+                <span>🤖</span> <span data-i18n="btnRunAi">شیکاری AI</span>
+              </button>
+              <span><span data-i18n="subOscillator">SUB-OSCILLATOR:</span> <button id="subPaneToggle" class="symbol-quick-btn active">RSI</button></span>
+              <span><span data-i18n="scrollZoom">SCROLL: ZOOM</span></span>
+              <span><span data-i18n="dragPan">DRAG: PAN</span></span>
+            </div>
+          </div>
+
+          <div class="chart-canvas-wrapper" id="chartWrapper">
+            <canvas id="candlestickChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Analysis Tabs Section Below Chart -->
+        <section class="analysis-tabs-section">
+          <div class="analysis-tab-header">
+            <button class="sub-tab-btn active" data-tab="confluence" data-i18n="tabConfluence">
+              CONFLUENCE & SIGNALS
+            </button>
+            <button class="sub-tab-btn" data-tab="structure" data-i18n="tabStructure">
+              MARKET STRUCTURE (SMC)
+            </button>
+            <button class="sub-tab-btn" data-tab="technical" data-i18n="tabTechnical">
+              TECHNICAL INDICATORS
+            </button>
+            <button class="sub-tab-btn" data-tab="patterns" data-i18n="tabPatterns">
+              PATTERN DETECTION
+            </button>
+            <button class="sub-tab-btn" data-tab="ai" data-i18n="tabAi">
+              SYA AI ANALYST (GROQ QWEN)
+            </button>
+          </div>
+
+          <div class="analysis-tab-content-wrap">
+
+            <!-- TAB 1: CONFLUENCE & SIGNALS -->
+            <div class="tab-pane active" id="pane-confluence">
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+
+                <!-- Confluence Hero Banner -->
+                <div class="signal-hero-panel">
+                  <div class="confluence-gauge-wrap">
+                    <div class="relative-gauge">
+                      <svg class="gauge-svg" viewBox="0 0 96 96">
+                        <circle cx="48" cy="48" r="40" stroke="#1a1a1f" stroke-width="5" fill="transparent"></circle>
+                        <circle id="confluenceGaugeCircle" cx="48" cy="48" r="40" stroke="#00ffa3" stroke-width="5" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="125" class="gauge-fill-circle"></circle>
+                      </svg>
+                      <div class="gauge-center-text">
+                        <span class="gauge-score-num" id="confluenceGaugeScore">50</span>
+                        <span class="gauge-score-label" data-i18n="score">Score</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="signal-badge-large wait" id="signalMainBadge">WAIT</div>
+
+                  <div class="confluence-breakdown">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                      <span style="font-weight: 700; font-size: 15px; color: var(--text-primary)" id="signalStrengthText">MODERATE CONFLUENCE (50/100)</span>
+                      <span style="font-size: 11px; color: var(--text-muted)">Strict institutional rule: Prefer WAIT over low-conviction entry</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 6px;">
+                      <div class="score-bar-group">
+                        <div class="score-bar-header"><span data-i18n="techScore">TECH</span><span id="scoreTechVal">50</span></div>
+                        <div class="score-progress-track"><div class="score-progress-fill" id="scoreTechFill" style="width: 50%"></div></div>
+                      </div>
+                      <div class="score-bar-group">
+                        <div class="score-bar-header"><span data-i18n="structScore">STRUCT</span><span id="scoreStructVal">50</span></div>
+                        <div class="score-progress-track"><div class="score-progress-fill" id="scoreStructFill" style="width: 50%"></div></div>
+                      </div>
+                      <div class="score-bar-group">
+                        <div class="score-bar-header"><span data-i18n="patternScore">PATTERN</span><span id="scorePatternVal">50</span></div>
+                        <div class="score-progress-track"><div class="score-progress-fill" id="scorePatternFill" style="width: 50%"></div></div>
+                      </div>
+                      <div class="score-bar-group">
+                        <div class="score-bar-header"><span data-i18n="momentumScore">MOMENTUM</span><span id="scoreMomentumVal">50</span></div>
+                        <div class="score-progress-track"><div class="score-progress-fill" id="scoreMomentumFill" style="width: 50%"></div></div>
+                      </div>
+                      <div class="score-bar-group">
+                        <div class="score-bar-header"><span data-i18n="riskScore">RISK</span><span id="scoreRiskVal">75</span></div>
+                        <div class="score-progress-track"><div class="score-progress-fill" id="scoreRiskFill" style="width: 75%"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Factors & Risk Box Grid -->
+                <div class="grid-2col">
+                  <!-- Confluence Factors -->
+                  <div class="metric-card">
+                    <span class="metric-card-header" data-i18n="checkpointHeader">Confluence & Invalidation Checkpoints</span>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                      <div>
+                        <div style="font-size: 11px; font-weight: 700; color: var(--color-buy); margin-bottom: 4px;" data-i18n="supportingFactors">SUPPORTING CONFLUENCE FACTORS</div>
+                        <ul id="confluenceFactorsList" style="list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 11.5px;">
+                          <li style="color: var(--color-buy)" data-i18n="scanningOrderFlow">✓ Scanning live order flow...</li>
+                        </ul>
+                      </div>
+                      <div style="margin-top: 6px;">
+                        <div style="font-size: 11px; font-weight: 700; color: var(--color-sell); margin-bottom: 4px;" data-i18n="conflictingFactors">CONFLICTING / RISK FACTORS</div>
+                        <ul id="conflictingFactorsList" style="list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 11.5px;">
+                          <li style="color: var(--color-sell)" data-i18n="consolidationFilter">✕ Cross-timeframe consolidation filter active.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Risk Management Corridor -->
+                  <div class="risk-corridor-card">
+                    <span class="metric-card-header" data-i18n="riskHeader">Institutional Risk Architecture</span>
+                    <div class="grid-2col" style="gap: 8px;">
+                      <div class="risk-level-row">
+                        <span class="risk-label" style="color: var(--color-cyan)" data-i18n="riskEntry">ENTRY</span>
+                        <span id="riskEntry">1.08450</span>
+                      </div>
+                      <div class="risk-level-row">
+                        <span class="risk-label" style="color: var(--color-sell)" data-i18n="riskSl">STOP LOSS</span>
+                        <span id="riskSl">1.08250</span>
+                      </div>
+                      <div class="risk-level-row">
+                        <span class="risk-label" style="color: var(--color-buy)" data-i18n="riskTp1">TP 1</span>
+                        <span id="riskTp1">1.08750</span>
+                      </div>
+                      <div class="risk-level-row">
+                        <span class="risk-label" style="color: var(--color-buy)" data-i18n="riskTp2">TP 2 (TARGET)</span>
+                        <span id="riskTp2">1.09150</span>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary); padding: 4px 0;">
+                      <span><span data-i18n="rrRatio">R:R RATIO:</span> <b style="color: var(--text-primary)" id="riskRr">1:2.8</b></span>
+                      <span><span data-i18n="maxRisk">MAX RISK:</span> <b style="color: var(--color-sell)">1.0% ($100)</b></span>
+                      <span><span data-i18n="posSize">POSITION SIZE:</span> <b style="color: var(--color-cyan)" id="riskUnits">50,000 units</b></span>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; border-top: 1px solid var(--border-subtle); padding-top: 6px;" id="riskInvalidationText" data-i18n="invalidationDefault">
+                      Trade invalidated upon breach of structural support level.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- TAB 2: MARKET STRUCTURE -->
+            <div class="tab-pane" id="pane-structure">
+              <div class="grid-3col">
+                <div class="metric-card">
+                  <span class="metric-card-header" data-i18n="marketRegime">Market Regime</span>
+                  <span class="metric-card-value" id="structRegimeBadge">BULLISH (82%)</span>
+                  <span class="metric-card-sub" data-i18n="bullishConfirmed">Higher Highs & Higher Lows confirmed</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header" data-i18n="bosHeader">Break of Structure (BOS)</span>
+                  <span class="metric-card-value" style="font-size: 14px;" id="structBosStatus">BOS BULLISH at 1.08420</span>
+                  <span class="metric-card-sub">Validated on candle close</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header" data-i18n="chochHeader">Change of Character (CHOCH)</span>
+                  <span class="metric-card-value" style="font-size: 14px;" id="structChochStatus" data-i18n="noneActive">None Active</span>
+                  <span class="metric-card-sub">No structural trend reversal detected</span>
+                </div>
+              </div>
+
+              <div class="grid-2col" style="margin-top: 14px;">
+                <div class="metric-card">
+                  <span class="metric-card-header" data-i18n="recentSwings">Recent Swings (Order Flow)</span>
+                  <div id="structSwingsList" style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+                    <!-- Swings injected by JS -->
+                  </div>
+                </div>
+
+                <div class="metric-card">
+                  <span class="metric-card-header" data-i18n="liquidityZones">Liquidity Zones & Key S/R</span>
+                  <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 11.5px;">
+                    <div class="risk-level-row"><span style="color: #FF3366">R2 RESISTANCE</span><span>1.08920</span></div>
+                    <div class="risk-level-row"><span style="color: #FF7043">R1 RESISTANCE</span><span>1.08680</span></div>
+                    <div class="risk-level-row"><span style="color: #00E676">S1 SUPPORT</span><span>1.08250</span></div>
+                    <div class="risk-level-row"><span style="color: #00B0FF">S2 SUPPORT</span><span>1.07980</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: TECHNICAL INDICATORS -->
+            <div class="tab-pane" id="pane-technical">
+              <div class="grid-4col">
+                <div class="metric-card">
+                  <span class="metric-card-header">EMA 20</span>
+                  <span class="metric-card-value" style="color: var(--color-cyan)" id="techEma20">1.08412</span>
+                  <span class="metric-card-sub" data-i18n="ema20Sub">Short-term momentum guide</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">EMA 50</span>
+                  <span class="metric-card-value" style="color: #FFD600" id="techEma50">1.08380</span>
+                  <span class="metric-card-sub" data-i18n="ema50Sub">Intermediate trend barrier</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">EMA 200</span>
+                  <span class="metric-card-value" style="color: #9D4EDD" id="techEma200">1.08150</span>
+                  <span class="metric-card-sub" data-i18n="ema200Sub">Macro institutional baseline</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">RSI (14)</span>
+                  <span class="metric-card-value" id="techRsi">56.4 <span style="font-size: 11px; color: var(--text-secondary)">(Neutral)</span></span>
+                  <span class="metric-card-sub">Upper: 70 | Lower: 30</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">MACD (12,26,9)</span>
+                  <span class="metric-card-value" style="font-size: 13px;" id="techMacd">H: +0.00018 | M: 0.00045</span>
+                  <span class="metric-card-sub" data-i18n="macdSub">Histogram positive momentum</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">ATR (14 Volatility)</span>
+                  <span class="metric-card-value" id="techAtr">0.00142 (14.2 pips)</span>
+                  <span class="metric-card-sub" data-i18n="atrSub">Normal volatility regime</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">Bollinger Bandwidth</span>
+                  <span class="metric-card-value" id="techBbWidth">4.12%</span>
+                  <span class="metric-card-sub" data-i18n="bbSub">Compression: Standard</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-card-header">ADX (14)</span>
+                  <span class="metric-card-value" id="techAdx">28.5 (STRONG_TREND)</span>
+                  <span class="metric-card-sub" data-i18n="adxSub">+DI dominant over -DI</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 4: PATTERNS -->
+            <div class="tab-pane" id="pane-patterns">
+              <div class="grid-3col" id="patternsGridList">
+                <!-- Patterns injected by JS -->
+              </div>
+            </div>
+
+            <!-- TAB 5: AI ANALYST (GROQ QWEN) -->
+            <div class="tab-pane" id="pane-ai">
+              <div class="ai-analyst-container">
+                <div class="ai-header-bar">
+                  <div class="ai-title-wrap">
+                    <span style="font-size: 15px; font-weight: 700; color: var(--text-primary)" data-i18n="aiTitle">SYA AI ANALYST</span>
+                    <span class="ai-badge">Groq / qwen/qwen3.6-27b</span>
+                    <span style="font-size: 11px; color: var(--text-muted)" data-i18n="aiSubtitle">Strict Grounding Protocol Active (No Hallucinations)</span>
+                  </div>
+
+                  <button class="btn-primary" id="btnRunAi">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <span data-i18n="btnRunAi">Execute AI Analysis</span>
+                  </button>
+                </div>
+
+                <div id="aiAnalystContent">
+                  <!-- AI result injected by JS -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         VIEW 2: MARKETS WATCHLIST
+         ================================================================== -->
+    <div class="view-container" id="view-markets">
+      <div class="view-header">
+        <div class="view-title" data-i18n="marketsTitle">Institutional Forex Matrix</div>
+        <div style="font-size: 12px; color: var(--text-muted)" data-i18n="marketsSubtitle">Real-time spot quotes & spread telemetry</div>
+      </div>
+      <div class="view-body">
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-i18n="colSymbol">Symbol</th>
+                <th data-i18n="colBid">Bid</th>
+                <th data-i18n="colAsk">Ask</th>
+                <th data-i18n="colSpread">Spread (pips)</th>
+                <th data-i18n="col24hChange">24h Change</th>
+                <th data-i18n="colHigh">24h High</th>
+                <th data-i18n="colLow">24h Low</th>
+              </tr>
+            </thead>
+            <tbody id="marketsTableBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         VIEW 3: DEDICATED AI ANALYST VIEW
+         ================================================================== -->
+    <div class="view-container" id="view-ai">
+      <div class="view-header">
+        <div class="view-title" data-i18n="aiTitle">SYA Quantitative AI Terminal</div>
+        <button class="btn-primary" onclick="window.App.switchView('dashboard'); window.App.switchSubTab('ai'); window.App.executeDeepAiAnalysis();">
+          <span data-i18n="btnRunAi">Analyze Selected Symbol</span>
+        </button>
+      </div>
+      <div class="view-body">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+          <div class="ai-tier-box">
+            <div class="ai-tier-title" data-i18n="aiSubtitle">Model Specifications & Integrity Guardrails</div>
+            <div style="color: var(--text-secondary); line-height: 1.6; font-size: 12.5px;">
+              The SYA FX AI Analyst is connected to <b>qwen/qwen3.6-27b</b> hosted on <b>Groq LPU hardware</b>.
+              Under institutional compliance mandates:
+              <br>• The model is fed <b>strictly verified telemetry</b> computed by the C# backend engine.
+              <br>• The model is forbidden from fabricating prices, indicators, signals, or evidence.
+              <br>• Output is structured into three unambiguous tiers: <b>FACT</b> (empirical data), <b>ANALYSIS</b> (confluence synthesis), and <b>UNCERTAINTY</b> (macro risks and boundary conditions).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         VIEW 4: SIGNALS FEED
+         ================================================================== -->
+    <div class="view-container" id="view-signals">
+      <div class="view-header">
+        <div class="view-title" data-i18n="navSignals">Confluence Signal Stream</div>
+        <div style="font-size: 12px; color: var(--text-muted)">Deterministic multi-engine signals</div>
+      </div>
+      <div class="view-body">
+        <div class="grid-2col" style="gap: 16px;">
+          <div class="metric-card">
+            <span class="metric-card-header">Current Focus Setup</span>
+            <div style="padding: 10px 0;">
+              <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">EUR/USD — M15 Timeframe</div>
+              <div style="color: var(--text-secondary); font-size: 12px; line-height: 1.5;">
+                Confluence score is calculated from 5 mathematical pillars: Technical (25%), Structure (25%), Chart Patterns (20%), Momentum (15%), and Risk/Volatility (15%).
+              </div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-card-header">Execution Protocol</span>
+            <div style="padding: 10px 0; color: var(--text-secondary); font-size: 12px; line-height: 1.5;">
+              • Signals must exceed <b>72 score</b> for BUY or fall below <b>35</b> for SELL.
+              <br>• Signals with conflicting structure default strictly to <b>WAIT</b>.
+              <br>• All trades feature predetermined ATR-calibrated Stop Loss and multi-target Take Profits.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         VIEW 5: BACKTEST LAB
+         ================================================================== -->
+    <div class="view-container" id="view-backtest">
+      <div class="view-header">
+        <div class="view-title" data-i18n="backtestTitle">Quantitative Backtest Simulator</div>
+        <div style="font-size: 12px; color: var(--text-muted)" data-i18n="backtestSubtitle">Bar-by-bar historical trade execution engine</div>
+      </div>
+      <div class="view-body">
+        <div class="backtest-form-card">
+          <div class="form-group">
+            <label class="form-label" data-i18n="btPair">Symbol</label>
+            <select class="form-select" id="btSymbol">
+              <option value="EUR_USD">EUR/USD</option>
+              <option value="GBP_USD">GBP/USD</option>
+              <option value="USD_JPY">USD/JPY</option>
+              <option value="AUD_USD">AUD/USD</option>
+              <option value="XAU_USD">XAU/USD</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="btTf">Timeframe</label>
+            <select class="form-select" id="btTimeframe">
+              <option value="M15">M15 (Intraday)</option>
+              <option value="H1">H1 (Hourly)</option>
+              <option value="H4">H4 (Swing)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="btStrategy">Strategy</label>
+            <select class="form-select" id="btStrategy">
+              <option value="CONFLUENCE">Multi-Pillar Confluence</option>
+              <option value="TREND_EMA">EMA 20/50 Trend Follow</option>
+              <option value="BREAKOUT_BOS">SMC Break of Structure</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="btBalance">Initial Balance ($)</label>
+            <input type="number" class="form-input" id="btBalance" value="10000" step="1000">
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="btRisk">Risk Per Trade (%)</label>
+            <input type="number" class="form-input" id="btRisk" value="1.0" step="0.5" max="5.0">
+          </div>
+          <button class="btn-primary" id="btnRunBacktest">
+            <span data-i18n="btnExecuteBt">Execute Backtest</span>
+          </button>
+        </div>
+
+        <div id="backtestResultsArea">
+          <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+            Configure parameters and click "Execute Backtest" to run historical quantitative simulation.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         VIEW 6: AUDIT HISTORY
+         ================================================================== -->
+    <div class="view-container" id="view-history">
+      <div class="view-header">
+        <div class="view-title" data-i18n="historyTitle">Database Signal Records</div>
+        <div style="font-size: 12px; color: var(--text-muted)" data-i18n="historySubtitle">Persistent SQLite / EF Core audit ledger</div>
+      </div>
+      <div class="view-body">
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-i18n="colTime">Timestamp</th>
+                <th data-i18n="colSymbol">Symbol</th>
+                <th>Timeframe</th>
+                <th data-i18n="colType">Signal</th>
+                <th data-i18n="colScore">Score</th>
+                <th data-i18n="colEntry">Entry</th>
+                <th data-i18n="colSlTp">SL / TP1</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- SCRIPTS -->
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
